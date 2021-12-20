@@ -114,16 +114,17 @@ func TestAddToken(t *testing.T) {
 }
 
 func TestGetToken(t *testing.T) {
-	/*err := godotenv.Load("../../.env")
+	err := godotenv.Load("../../.env")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	//mongo_url := os.Getenv("MONGO_URL")
+	mongo_url := os.Getenv("MONGO_URL")
 
+	mongodb.DB, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(mongo_url))
 	if err != nil {
 		log.Fatalln(err)
-	}*/
+	}
 
 	ctx := context.Background()
 
@@ -145,7 +146,7 @@ func TestGetToken(t *testing.T) {
 		}
 	})
 	t.Run("it should return a Token Object if all suceeds", func(t *testing.T) {
-		request := &pb.GetTokenRequest{Id: "61c06051c793e3d7155c9cd2"}
+		request := &pb.GetTokenRequest{Id: "61c0a02936477d49339ea394"}
 
 		response, err := client.GetToken(ctx, request)
 
@@ -154,6 +155,7 @@ func TestGetToken(t *testing.T) {
 			t.Errorf("Should return a nil Error object")
 		}
 
+		fmt.Println(response)
 		have_the_proper_types :=
 			fmt.Sprintf("%T", response.Name) != "string" && fmt.Sprintf("%T", response.Price) != "float64" && fmt.Sprintf("%T", response.Id) != "string"
 
@@ -162,6 +164,59 @@ func TestGetToken(t *testing.T) {
 
 		if have_the_proper_types && arent_empty {
 			t.Errorf("Should return a valid token object")
+		}
+	})
+}
+
+func TestListToken(t *testing.T) {
+	err := godotenv.Load("../../.env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	mongo_url := os.Getenv("MONGO_URL")
+
+	mongodb.DB, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(mongo_url))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	ctx := context.Background()
+
+	conn, err := grpc.DialContext(ctx, "", grpc.WithInsecure(), grpc.WithContextDialer(dialer()))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	client := pb.NewTokenUpvoteServiceClient(conn)
+
+	t.Run("it should returns error if Limit and Page doesnt exists", func(t *testing.T) {
+		request := &pb.ListTokenRequest{}
+		response, _ := client.ListToken(ctx, request)
+
+		_, err = response.Recv()
+
+		want := status.Error(codes.InvalidArgument, "You must provide paginate data")
+		if err.Error() != want.Error() {
+
+			t.Errorf("Should return a invalidArgument error when Name and Page doenst exists")
+		}
+	})
+	t.Run("returns 3 times if Limit equals 3", func(t *testing.T) {
+		request := &pb.ListTokenRequest{Limit: 3, Page: 1}
+		response, _ := client.ListToken(ctx, request)
+
+		//result, _ := response.Recv()
+
+		response.Recv()
+		response.Recv()
+		response.Recv()
+		_, err := response.Recv()
+
+		want := "EOF"
+		if want != err.Error() {
+			t.Errorf("returns 3 times if Limit equals 3")
 		}
 	})
 }

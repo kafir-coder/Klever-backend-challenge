@@ -16,7 +16,7 @@ import (
 
 var DB *mongo.Client
 
-func ListTokens(limit, page uint) []Token {
+func ListTokens(limit, page uint32) []Token {
 
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")

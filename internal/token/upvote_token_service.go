@@ -5,6 +5,7 @@ import (
 	pb "Token_service/pkg/proto/token"
 	"context"
 	"fmt"
+	"log"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -74,4 +75,23 @@ func (*TokenService) GetToken(ctx context.Context, req *pb.GetTokenRequest) (*pb
 	}
 
 	return result, nil
+}
+
+func (*TokenService) ListToken(in *pb.ListTokenRequest, stream pb.TokenUpvoteService_ListTokenServer) error {
+
+	if in.Limit == 0 && in.Page == 0 {
+		return status.Error(codes.InvalidArgument, "You must provide paginate data")
+	}
+	token_list := mongodb.ListTokens(in.Limit, in.Page)
+	for _, token := range token_list {
+
+		if err := stream.Send(&pb.Token{
+			Id:    token.Id,
+			Name:  token.Name,
+			Price: token.Price,
+		}); err != nil {
+			log.Printf("send error %v", err)
+		}
+	}
+	return nil
 }

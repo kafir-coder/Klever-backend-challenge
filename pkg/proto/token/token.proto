@@ -9,7 +9,7 @@ service TokenUpvoteService {
     
     rpc addToken(add_token_request) returns (token);
     rpc getToken(get_token_request) returns (token);
-    rpc listToken(list_token_request) returns (token_list);
+    rpc listToken(list_token_request) returns (stream token);
     rpc deleteToken(delete_token_request) returns (ok);
     
     rpc upvoteToToken(upvote_vote_request) returns (ok);
@@ -18,7 +18,7 @@ service TokenUpvoteService {
 }
 
 message add_token_request {
-    string name = 1 [(validate.rules).message.string.is];
+    string name = 1;
     double price = 2;
 }
 
