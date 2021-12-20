@@ -1,4 +1,4 @@
-package mongo
+package mongodb
 
 import (
 	"context"
@@ -7,21 +7,16 @@ import (
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var DB *mongo.Client
 
-type Token struct {
-	Id    string  `bson:"_id,omitempty"`
-	Name  string  `bson:"name,omitempty"`
-	Price float64 `bson:"price,omitempty"`
-	Votes uint    `bson:"votes,omitempty"`
-}
-
 func ListTokens(limit, page uint) []Token {
+
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
 	coll := DB.Database(dbname).Collection("tokens")
@@ -53,13 +48,12 @@ func ListTokens(limit, page uint) []Token {
 
 }
 
-func GetTokenById(id string) Token {
+func GetTokenById(id interface{}) Token {
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
 	coll := DB.Database(dbname).Collection("tokens")
-	oid, _ := primitive.ObjectIDFromHex(id)
 
-	filter := bson.D{{Key: "_id", Value: oid}}
+	filter := bson.D{{Key: "_id", Value: id}}
 	var result bson.D
 	var token Token
 	if err := coll.FindOne(context.TODO(), filter).Decode(&result); err != nil {
@@ -70,4 +64,20 @@ func GetTokenById(id string) Token {
 
 	bson.Unmarshal(doc, &token)
 	return token
+}
+
+func InsertToken(data Token) (Token, error) {
+	godotenv.Load()
+	dbname := os.Getenv("DBNAME")
+	coll := DB.Database(dbname).Collection("tokens")
+
+	inserted_doc, err := coll.InsertOne(context.TODO(), data)
+
+	if err != nil {
+		return data, status.Error(codes.Unknown, "err")
+	}
+
+	document := GetTokenById(inserted_doc.InsertedID)
+
+	return document, nil
 }

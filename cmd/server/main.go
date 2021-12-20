@@ -1,16 +1,20 @@
 package main
 
 import (
-	mongodb "Token_service/pkg/mongo"
+	"Token_service/internal/token"
+	mongodb "Token_service/pkg/mongodb"
 	"context"
 	"log"
 	"net"
 	"os"
 
+	pb "Token_service/pkg/proto/token"
+
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -35,5 +39,7 @@ func main() {
 
 	server := grpc.NewServer()
 
+	pb.RegisterTokenUpvoteServiceServer(server, &token.TokenService{})
+	reflection.Register(server)
 	log.Fatalln(server.Serve(listener))
 }

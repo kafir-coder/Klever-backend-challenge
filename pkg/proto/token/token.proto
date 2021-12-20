@@ -1,8 +1,9 @@
 syntax = "proto3";
  
-package account;
+package token;
  
-option go_package = ".;account";
+option go_package = ".;token";
+import "validate/validate.proto";
 
 service TokenUpvoteService {
     
@@ -17,8 +18,8 @@ service TokenUpvoteService {
 }
 
 message add_token_request {
-    string name = 1;
-    uint32 price = 2;
+    string name = 1 [(validate.rules).message.string.is];
+    double price = 2;
 }
 
 message get_token_request {
@@ -28,7 +29,7 @@ message get_token_request {
 message token {
     string id = 1;
     string name = 2;
-    uint32 price = 3;
+    double price = 3;
 }
 
 message list_token_request {
