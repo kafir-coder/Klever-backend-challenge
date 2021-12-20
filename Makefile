@@ -12,4 +12,4 @@ run: ## Build and run server.
 
 .PHONY: test
 test: ## run the test cases
-	go test -v -run TestAddToken ./internal/token
+	go test -v -run ./ ./internal/token

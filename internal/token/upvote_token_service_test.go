@@ -112,3 +112,56 @@ func TestAddToken(t *testing.T) {
 		}
 	})
 }
+
+func TestGetToken(t *testing.T) {
+	/*err := godotenv.Load("../../.env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//mongo_url := os.Getenv("MONGO_URL")
+
+	if err != nil {
+		log.Fatalln(err)
+	}*/
+
+	ctx := context.Background()
+
+	conn, err := grpc.DialContext(ctx, "", grpc.WithInsecure(), grpc.WithContextDialer(dialer()))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	client := pb.NewTokenUpvoteServiceClient(conn)
+	t.Run("it should return error if Id is empty", func(t *testing.T) {
+		request := &pb.GetTokenRequest{Id: ""}
+		_, err := client.GetToken(ctx, request)
+
+		want := status.Error(codes.InvalidArgument, "Id musn't be empty")
+		if err.Error() != want.Error() {
+
+			t.Errorf("Should return a invalidArgument error when id is empty")
+		}
+	})
+	t.Run("it should return a Token Object if all suceeds", func(t *testing.T) {
+		request := &pb.GetTokenRequest{Id: "61c06051c793e3d7155c9cd2"}
+
+		response, err := client.GetToken(ctx, request)
+
+		if err != nil {
+
+			t.Errorf("Should return a nil Error object")
+		}
+
+		have_the_proper_types :=
+			fmt.Sprintf("%T", response.Name) != "string" && fmt.Sprintf("%T", response.Price) != "float64" && fmt.Sprintf("%T", response.Id) != "string"
+
+		arent_empty :=
+			response.Id == "" && response.Name == "" && response.Price < 0
+
+		if have_the_proper_types && arent_empty {
+			t.Errorf("Should return a valid token object")
+		}
+	})
+}

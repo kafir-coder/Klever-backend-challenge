@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc/codes"
@@ -48,12 +49,13 @@ func ListTokens(limit, page uint) []Token {
 
 }
 
-func GetTokenById(id interface{}) Token {
+func GetTokenById(id string) Token {
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
 	coll := DB.Database(dbname).Collection("tokens")
+	object_id, _ := primitive.ObjectIDFromHex(id)
 
-	filter := bson.D{{Key: "_id", Value: id}}
+	filter := bson.D{{Key: "_id", Value: object_id}}
 	var result bson.D
 	var token Token
 	if err := coll.FindOne(context.TODO(), filter).Decode(&result); err != nil {
@@ -77,7 +79,14 @@ func InsertToken(data Token) (Token, error) {
 		return data, status.Error(codes.Unknown, "err")
 	}
 
-	document := GetTokenById(inserted_doc.InsertedID)
+	filter := bson.D{{Key: "_id", Value: inserted_doc.InsertedID}}
+	var result bson.D
+	coll.FindOne(context.TODO(), filter).Decode(&result)
 
-	return document, nil
+	doc, _ := bson.Marshal(result)
+
+	var token Token
+	bson.Unmarshal(doc, &token)
+
+	return token, nil
 }
