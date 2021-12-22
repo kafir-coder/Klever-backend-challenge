@@ -1,6 +1,6 @@
 module Token_service
 
-go 1.13
+go 1.17
 
 require (
 	github.com/benweissmann/memongo v0.1.1
