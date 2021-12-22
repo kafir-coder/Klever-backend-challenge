@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -16,23 +17,25 @@ import (
 
 var DB *mongo.Client
 
-func ListTokens(limit, page uint32) []Token {
+func ListDocuments(limit, page uint32, collectionName string) []bson.D {
 
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
-	coll := DB.Database(dbname).Collection("tokens")
+	coll := DB.Database(dbname).Collection(collectionName)
 	findOptions := options.Find()
-	findOptions.SetLimit(int64(limit))
-	findOptions.SetSkip(int64(page - 1))
+	if limit > 0 && page > 0 {
 
-	var results []Token
+		findOptions.SetLimit(int64(limit))
+		findOptions.SetSkip(int64(page - 1))
+	}
+	var results []bson.D
 	cur, err := coll.Find(context.TODO(), bson.D{{}}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for cur.Next(context.TODO()) {
-		var elem Token
+		var elem bson.D
 		err := cur.Decode(&elem)
 		if err != nil {
 			log.Fatal(err)
@@ -49,29 +52,62 @@ func ListTokens(limit, page uint32) []Token {
 
 }
 
-func GetTokenById(id string) Token {
+func ListDocumentsByX(limit, page uint32, collectionName string, field, filter string) []bson.D {
+
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
-	coll := DB.Database(dbname).Collection("tokens")
+	coll := DB.Database(dbname).Collection(collectionName)
+	findOptions := options.Find()
+	if limit > 0 && page > 0 {
+
+		findOptions.SetLimit(int64(limit))
+		findOptions.SetSkip(int64(page - 1))
+	}
+	var results []bson.D
+	cur, err := coll.Find(context.TODO(), bson.D{{
+		Key:   field,
+		Value: filter,
+	}}, findOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for cur.Next(context.TODO()) {
+		var elem bson.D
+		err := cur.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+		results = append(results, elem)
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+	cur.Close(context.TODO())
+
+	return results
+
+}
+
+func GetDocumentById(id, collectionName string) bson.D {
+	godotenv.Load()
+	dbname := os.Getenv("DBNAME")
+	coll := DB.Database(dbname).Collection(collectionName)
 	object_id, _ := primitive.ObjectIDFromHex(id)
 
 	filter := bson.D{{Key: "_id", Value: object_id}}
 	var result bson.D
-	var token Token
 	if err := coll.FindOne(context.TODO(), filter).Decode(&result); err != nil {
 		log.Fatalln(err)
 	}
-
-	doc, _ := bson.Marshal(result)
-
-	bson.Unmarshal(doc, &token)
-	return token
+	return result
 }
 
-func InsertToken(data Token) (Token, error) {
+func InsertOne(data primitive.D, collectionName string) (bson.D, error) {
 	godotenv.Load()
 	dbname := os.Getenv("DBNAME")
-	coll := DB.Database(dbname).Collection("tokens")
+	coll := DB.Database(dbname).Collection(collectionName)
 
 	inserted_doc, err := coll.InsertOne(context.TODO(), data)
 
@@ -83,10 +119,72 @@ func InsertToken(data Token) (Token, error) {
 	var result bson.D
 	coll.FindOne(context.TODO(), filter).Decode(&result)
 
-	doc, _ := bson.Marshal(result)
+	return result, nil
+}
 
-	var token Token
-	bson.Unmarshal(doc, &token)
+func UpdateById(id, collectionName string, data primitive.D) (*mongo.UpdateResult, error) {
+	godotenv.Load()
+	dbname := os.Getenv("DBNAME")
+	coll := DB.Database(dbname).Collection(collectionName)
+	object_id, _ := primitive.ObjectIDFromHex(id)
 
-	return token, nil
+	filter := bson.D{{Key: "_id", Value: object_id}}
+	update := bson.D{{
+		Key:   "$set",
+		Value: data,
+	}}
+
+	res, err := coll.UpdateOne(
+		context.TODO(),
+		filter,
+		update,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func DeleteById(id, collectionName string) (*mongo.DeleteResult, error) {
+	godotenv.Load()
+	dbname := os.Getenv("DBNAME")
+	coll := DB.Database(dbname).Collection(collectionName)
+	object_id, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.D{{Key: "_id", Value: object_id}}
+	res, err := coll.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func DeleteByX(field, value, collectionName string) (*mongo.DeleteResult, error) {
+	godotenv.Load()
+	dbname := os.Getenv("DBNAME")
+	coll := DB.Database(dbname).Collection(collectionName)
+
+	filter := bson.D{{Key: field, Value: value}}
+	res, err := coll.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+func Unmarshal(document bson.D, docType string) interface{} {
+	doc, _ := bson.Marshal(document)
+
+	fmt.Println(doc)
+	switch {
+	case docType == "token":
+		var unmarshalled_document Token
+		bson.Unmarshal(doc, &unmarshalled_document)
+		return unmarshalled_document
+	case docType == "vote":
+		fmt.Println("sdfs")
+		var unmarshalled_document Votes
+		bson.Unmarshal(doc, &unmarshalled_document)
+		fmt.Println(unmarshalled_document)
+		return unmarshalled_document
+	}
+	return nil
 }

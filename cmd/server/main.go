@@ -32,6 +32,8 @@ func main() {
 	}
 
 	mongodb.DB, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(mongo_url))
+
+	defer mongodb.DB.Disconnect(context.TODO())
 	if err != nil {
 		log.Fatalln(err)
 	}

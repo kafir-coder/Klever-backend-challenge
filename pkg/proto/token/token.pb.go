@@ -72,6 +72,53 @@ func (m *AddTokenRequest) GetPrice() float64 {
 	return 0
 }
 
+type NumberOfVotes struct {
+	Owner                string   `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	NVotes               uint32   `protobuf:"varint,2,opt,name=n_votes,json=nVotes,proto3" json:"n_votes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *NumberOfVotes) Reset()         { *m = NumberOfVotes{} }
+func (m *NumberOfVotes) String() string { return proto.CompactTextString(m) }
+func (*NumberOfVotes) ProtoMessage()    {}
+func (*NumberOfVotes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_3aff0bcd502840ab, []int{1}
+}
+
+func (m *NumberOfVotes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NumberOfVotes.Unmarshal(m, b)
+}
+func (m *NumberOfVotes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NumberOfVotes.Marshal(b, m, deterministic)
+}
+func (m *NumberOfVotes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NumberOfVotes.Merge(m, src)
+}
+func (m *NumberOfVotes) XXX_Size() int {
+	return xxx_messageInfo_NumberOfVotes.Size(m)
+}
+func (m *NumberOfVotes) XXX_DiscardUnknown() {
+	xxx_messageInfo_NumberOfVotes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NumberOfVotes proto.InternalMessageInfo
+
+func (m *NumberOfVotes) GetOwner() string {
+	if m != nil {
+		return m.Owner
+	}
+	return ""
+}
+
+func (m *NumberOfVotes) GetNVotes() uint32 {
+	if m != nil {
+		return m.NVotes
+	}
+	return 0
+}
+
 type GetTokenRequest struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -83,7 +130,7 @@ func (m *GetTokenRequest) Reset()         { *m = GetTokenRequest{} }
 func (m *GetTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*GetTokenRequest) ProtoMessage()    {}
 func (*GetTokenRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{1}
+	return fileDescriptor_3aff0bcd502840ab, []int{2}
 }
 
 func (m *GetTokenRequest) XXX_Unmarshal(b []byte) error {
@@ -124,7 +171,7 @@ func (m *Token) Reset()         { *m = Token{} }
 func (m *Token) String() string { return proto.CompactTextString(m) }
 func (*Token) ProtoMessage()    {}
 func (*Token) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{2}
+	return fileDescriptor_3aff0bcd502840ab, []int{3}
 }
 
 func (m *Token) XXX_Unmarshal(b []byte) error {
@@ -178,7 +225,7 @@ func (m *ListTokenRequest) Reset()         { *m = ListTokenRequest{} }
 func (m *ListTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*ListTokenRequest) ProtoMessage()    {}
 func (*ListTokenRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{3}
+	return fileDescriptor_3aff0bcd502840ab, []int{4}
 }
 
 func (m *ListTokenRequest) XXX_Unmarshal(b []byte) error {
@@ -224,7 +271,7 @@ func (m *DeleteTokenRequest) Reset()         { *m = DeleteTokenRequest{} }
 func (m *DeleteTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteTokenRequest) ProtoMessage()    {}
 func (*DeleteTokenRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{4}
+	return fileDescriptor_3aff0bcd502840ab, []int{5}
 }
 
 func (m *DeleteTokenRequest) XXX_Unmarshal(b []byte) error {
@@ -252,6 +299,61 @@ func (m *DeleteTokenRequest) GetId() string {
 	return ""
 }
 
+type UpdateTokenRequest struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Price                float64  `protobuf:"fixed64,3,opt,name=price,proto3" json:"price,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateTokenRequest) Reset()         { *m = UpdateTokenRequest{} }
+func (m *UpdateTokenRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateTokenRequest) ProtoMessage()    {}
+func (*UpdateTokenRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_3aff0bcd502840ab, []int{6}
+}
+
+func (m *UpdateTokenRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateTokenRequest.Unmarshal(m, b)
+}
+func (m *UpdateTokenRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateTokenRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateTokenRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateTokenRequest.Merge(m, src)
+}
+func (m *UpdateTokenRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateTokenRequest.Size(m)
+}
+func (m *UpdateTokenRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateTokenRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateTokenRequest proto.InternalMessageInfo
+
+func (m *UpdateTokenRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *UpdateTokenRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *UpdateTokenRequest) GetPrice() float64 {
+	if m != nil {
+		return m.Price
+	}
+	return 0
+}
+
 type Votes struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	To                   string   `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
@@ -264,7 +366,7 @@ func (m *Votes) Reset()         { *m = Votes{} }
 func (m *Votes) String() string { return proto.CompactTextString(m) }
 func (*Votes) ProtoMessage()    {}
 func (*Votes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{5}
+	return fileDescriptor_3aff0bcd502840ab, []int{7}
 }
 
 func (m *Votes) XXX_Unmarshal(b []byte) error {
@@ -310,7 +412,7 @@ func (m *TokenList) Reset()         { *m = TokenList{} }
 func (m *TokenList) String() string { return proto.CompactTextString(m) }
 func (*TokenList) ProtoMessage()    {}
 func (*TokenList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{6}
+	return fileDescriptor_3aff0bcd502840ab, []int{8}
 }
 
 func (m *TokenList) XXX_Unmarshal(b []byte) error {
@@ -349,7 +451,7 @@ func (m *UpvoteVoteRequest) Reset()         { *m = UpvoteVoteRequest{} }
 func (m *UpvoteVoteRequest) String() string { return proto.CompactTextString(m) }
 func (*UpvoteVoteRequest) ProtoMessage()    {}
 func (*UpvoteVoteRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{7}
+	return fileDescriptor_3aff0bcd502840ab, []int{9}
 }
 
 func (m *UpvoteVoteRequest) XXX_Unmarshal(b []byte) error {
@@ -388,7 +490,7 @@ func (m *DownVoteRequest) Reset()         { *m = DownVoteRequest{} }
 func (m *DownVoteRequest) String() string { return proto.CompactTextString(m) }
 func (*DownVoteRequest) ProtoMessage()    {}
 func (*DownVoteRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{8}
+	return fileDescriptor_3aff0bcd502840ab, []int{10}
 }
 
 func (m *DownVoteRequest) XXX_Unmarshal(b []byte) error {
@@ -427,7 +529,7 @@ func (m *WatchTokenRequest) Reset()         { *m = WatchTokenRequest{} }
 func (m *WatchTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*WatchTokenRequest) ProtoMessage()    {}
 func (*WatchTokenRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{9}
+	return fileDescriptor_3aff0bcd502840ab, []int{11}
 }
 
 func (m *WatchTokenRequest) XXX_Unmarshal(b []byte) error {
@@ -457,6 +559,7 @@ func (m *WatchTokenRequest) GetId() string {
 
 type Ok struct {
 	Ok                   bool     `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	NoData               bool     `protobuf:"varint,2,opt,name=noData,proto3" json:"noData,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -466,7 +569,7 @@ func (m *Ok) Reset()         { *m = Ok{} }
 func (m *Ok) String() string { return proto.CompactTextString(m) }
 func (*Ok) ProtoMessage()    {}
 func (*Ok) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3aff0bcd502840ab, []int{10}
+	return fileDescriptor_3aff0bcd502840ab, []int{12}
 }
 
 func (m *Ok) XXX_Unmarshal(b []byte) error {
@@ -494,12 +597,21 @@ func (m *Ok) GetOk() bool {
 	return false
 }
 
+func (m *Ok) GetNoData() bool {
+	if m != nil {
+		return m.NoData
+	}
+	return false
+}
+
 func init() {
 	proto.RegisterType((*AddTokenRequest)(nil), "token.add_token_request")
+	proto.RegisterType((*NumberOfVotes)(nil), "token.number_of_votes")
 	proto.RegisterType((*GetTokenRequest)(nil), "token.get_token_request")
 	proto.RegisterType((*Token)(nil), "token.token")
 	proto.RegisterType((*ListTokenRequest)(nil), "token.list_token_request")
 	proto.RegisterType((*DeleteTokenRequest)(nil), "token.delete_token_request")
+	proto.RegisterType((*UpdateTokenRequest)(nil), "token.update_token_request")
 	proto.RegisterType((*Votes)(nil), "token.votes")
 	proto.RegisterType((*TokenList)(nil), "token.token_list")
 	proto.RegisterType((*UpvoteVoteRequest)(nil), "token.upvote_vote_request")
@@ -511,33 +623,39 @@ func init() {
 func init() { proto.RegisterFile("token.proto", fileDescriptor_3aff0bcd502840ab) }
 
 var fileDescriptor_3aff0bcd502840ab = []byte{
-	// 414 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x93, 0xdd, 0x8e, 0xd2, 0x40,
-	0x14, 0xc7, 0xd3, 0xc1, 0xae, 0xdb, 0x83, 0xec, 0x86, 0xd9, 0x26, 0xd6, 0x7a, 0x43, 0xba, 0xa2,
-	0x5c, 0x21, 0xa9, 0x91, 0x1b, 0x83, 0x89, 0x3e, 0x42, 0x45, 0x2f, 0xbc, 0x21, 0x95, 0x99, 0xe0,
-	0xa4, 0x85, 0xa9, 0xed, 0x00, 0xef, 0xe2, 0xd3, 0x9a, 0x39, 0x33, 0x10, 0xfa, 0xe1, 0x72, 0xd3,
-	0xcc, 0x99, 0x7f, 0x7f, 0xe7, 0xa3, 0xff, 0x53, 0xe8, 0x2b, 0x99, 0xf1, 0xdd, 0xb4, 0x28, 0xa5,
-	0x92, 0xd4, 0xc5, 0x20, 0x7c, 0x79, 0x48, 0x73, 0xc1, 0x52, 0xc5, 0xdf, 0x9f, 0x0e, 0x46, 0x8f,
-	0x16, 0x30, 0x4c, 0x19, 0x5b, 0xe1, 0x5b, 0xab, 0x92, 0xff, 0xd9, 0xf3, 0x4a, 0x51, 0x0a, 0xcf,
-	0x76, 0xe9, 0x96, 0x07, 0xce, 0xc8, 0x99, 0x78, 0x09, 0x9e, 0xa9, 0x0f, 0x6e, 0x51, 0x8a, 0x35,
-	0x0f, 0xc8, 0xc8, 0x99, 0x38, 0x89, 0x09, 0xa2, 0x47, 0x18, 0x6e, 0xb8, 0x6a, 0xe0, 0x77, 0x40,
-	0x04, 0xb3, 0x30, 0x11, 0x2c, 0xfa, 0x02, 0xa6, 0x8b, 0xa6, 0x70, 0xae, 0x43, 0xba, 0xea, 0xf4,
-	0x2e, 0xeb, 0x7c, 0x06, 0x9a, 0x8b, 0xaa, 0x59, 0xc8, 0x07, 0x37, 0x17, 0x5b, 0xa1, 0x30, 0xe5,
-	0x20, 0x31, 0x81, 0xce, 0x5a, 0xa4, 0x1b, 0x93, 0x75, 0x90, 0xe0, 0x39, 0x7a, 0x0b, 0x3e, 0xe3,
-	0x39, 0x57, 0xfc, 0x4a, 0xab, 0xef, 0xc0, 0x3d, 0x48, 0xc5, 0xab, 0x56, 0xab, 0x77, 0x40, 0x94,
-	0xb4, 0x8d, 0x12, 0x25, 0xa3, 0x18, 0xc0, 0x64, 0xd2, 0x6d, 0xd1, 0x37, 0x70, 0x83, 0x51, 0x15,
-	0x38, 0xa3, 0xde, 0xa4, 0x1f, 0xbf, 0x98, 0x1a, 0x0f, 0xf0, 0x99, 0x58, 0x2d, 0x1a, 0xc3, 0xc3,
-	0xbe, 0xd0, 0xe9, 0x57, 0xf8, 0xf8, 0x5f, 0x0f, 0x8f, 0x30, 0x64, 0xf2, 0xb8, 0x7b, 0xfa, 0xa5,
-	0x31, 0x3c, 0x1c, 0x53, 0xb5, 0xfe, 0x7d, 0x65, 0x1e, 0x1f, 0x88, 0xcc, 0xf4, 0xad, 0xcc, 0xf0,
-	0xf6, 0x36, 0x21, 0x32, 0x8b, 0xff, 0xf6, 0x80, 0x2e, 0x35, 0xf7, 0x1d, 0xdb, 0xf9, 0xc6, 0xcb,
-	0x83, 0x58, 0x73, 0x1a, 0xc3, 0x6d, 0xca, 0x18, 0x0a, 0x34, 0xb0, 0x13, 0xb4, 0x96, 0x23, 0xac,
-	0xcd, 0xa6, 0x99, 0x0d, 0x57, 0x75, 0xa6, 0xb5, 0x11, 0x0d, 0x66, 0x0e, 0x9e, 0xfe, 0x6a, 0x06,
-	0x7a, 0x65, 0xa5, 0xb6, 0xbd, 0x75, 0x6a, 0xe6, 0xd0, 0x8f, 0xd0, 0x37, 0x26, 0x1a, 0xf2, 0xb5,
-	0x95, 0xbb, 0x8c, 0x0d, 0x3d, 0x2b, 0xca, 0x8c, 0xce, 0x61, 0x60, 0x3e, 0xfb, 0x52, 0x1a, 0x30,
-	0xb4, 0x5a, 0x87, 0x19, 0x75, 0xee, 0x5e, 0xfb, 0x70, 0x49, 0x9e, 0x26, 0x6c, 0xf9, 0x73, 0xc9,
-	0x2d, 0xe0, 0x1e, 0xad, 0x41, 0xe4, 0x07, 0x6e, 0xd3, 0xa9, 0x62, 0x87, 0x65, 0xe7, 0x29, 0x71,
-	0xef, 0x66, 0xce, 0x57, 0xef, 0xe7, 0xf3, 0xe9, 0x27, 0xbc, 0xfa, 0x75, 0x83, 0xff, 0xe8, 0x87,
-	0x7f, 0x01, 0x00, 0x00, 0xff, 0xff, 0xef, 0x51, 0x0a, 0x55, 0xd2, 0x03, 0x00, 0x00,
+	// 498 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x54, 0x4d, 0x8f, 0x12, 0x41,
+	0x10, 0xcd, 0x0c, 0xcb, 0x57, 0x21, 0x8b, 0xf4, 0x92, 0x5d, 0x9c, 0xbd, 0x90, 0x59, 0x57, 0x39,
+	0x18, 0xdc, 0x60, 0xdc, 0x8b, 0xd1, 0x28, 0x31, 0xf1, 0x3e, 0xae, 0x26, 0x7a, 0x21, 0xbd, 0x74,
+	0x89, 0x13, 0x60, 0x7a, 0x1c, 0x1a, 0xf8, 0xb1, 0xfe, 0x13, 0x4f, 0xa6, 0xab, 0x7b, 0xc9, 0x7c,
+	0x2d, 0x5c, 0x48, 0xd7, 0xbc, 0x7a, 0xd5, 0xaf, 0xaa, 0x1e, 0x0d, 0x2d, 0x25, 0x17, 0x18, 0x8d,
+	0xe2, 0x44, 0x2a, 0xc9, 0xaa, 0x14, 0x78, 0x17, 0x5b, 0xbe, 0x0c, 0x05, 0x57, 0xf8, 0xfa, 0xe1,
+	0x60, 0x70, 0xff, 0x3d, 0x74, 0xb9, 0x10, 0x53, 0xca, 0x9a, 0x26, 0xf8, 0x67, 0x83, 0x6b, 0xc5,
+	0x18, 0x9c, 0x44, 0x7c, 0x85, 0x7d, 0x67, 0xe0, 0x0c, 0x9b, 0x01, 0x9d, 0x59, 0x0f, 0xaa, 0x71,
+	0x12, 0xce, 0xb0, 0xef, 0x0e, 0x9c, 0xa1, 0x13, 0x98, 0xc0, 0xff, 0x08, 0x9d, 0x68, 0xb3, 0xba,
+	0xc7, 0x64, 0x2a, 0x7f, 0x4d, 0xb7, 0x52, 0xe1, 0x5a, 0x27, 0xca, 0x5d, 0x84, 0x89, 0x65, 0x9b,
+	0x80, 0x5d, 0x40, 0x3d, 0x32, 0x09, 0x54, 0xa0, 0x1d, 0xd4, 0xa2, 0xef, 0x3a, 0xf2, 0xaf, 0xa0,
+	0x3b, 0x47, 0x95, 0x13, 0x70, 0x0a, 0x6e, 0x28, 0x6c, 0x01, 0x37, 0x14, 0xfe, 0x27, 0x30, 0x7d,
+	0xe4, 0x81, 0xbd, 0x52, 0xb7, 0x4c, 0x69, 0x25, 0xad, 0xf4, 0x03, 0xb0, 0x65, 0xb8, 0xce, 0x5f,
+	0xd4, 0x83, 0xea, 0x32, 0x5c, 0x85, 0x8a, 0x4a, 0xb6, 0x03, 0x13, 0xe8, 0xaa, 0x31, 0x9f, 0xa3,
+	0x55, 0x4a, 0x67, 0xff, 0x05, 0xf4, 0x04, 0x2e, 0x51, 0xe1, 0x11, 0xa9, 0x3f, 0xa0, 0xb7, 0x89,
+	0xf5, 0x80, 0x0f, 0xe7, 0xb1, 0xcb, 0xb4, 0xf2, 0x49, 0xfd, 0xdf, 0xe4, 0x24, 0x71, 0x9f, 0x56,
+	0x0e, 0xb6, 0xf0, 0x12, 0xaa, 0x66, 0xc4, 0xf9, 0x5a, 0xa7, 0xe0, 0x2a, 0x69, 0x67, 0xe0, 0x2a,
+	0xe9, 0x8f, 0x01, 0xcc, 0xe5, 0xba, 0x63, 0xf6, 0x1c, 0x6a, 0x14, 0xad, 0xfb, 0xce, 0xa0, 0x32,
+	0x6c, 0x8d, 0x9f, 0x8c, 0x8c, 0x41, 0xe8, 0x37, 0xb0, 0x98, 0x7f, 0x0d, 0x67, 0x9b, 0x58, 0x97,
+	0xa7, 0x2d, 0x3d, 0xda, 0xde, 0x15, 0x74, 0x85, 0xdc, 0x45, 0x87, 0x93, 0xae, 0xe1, 0x6c, 0xc7,
+	0xd5, 0xec, 0xf7, 0x91, 0x51, 0xbd, 0x02, 0x57, 0x2e, 0xf4, 0x57, 0xb9, 0xa0, 0xaf, 0x8d, 0x40,
+	0xc7, 0xe7, 0x50, 0x8b, 0xe4, 0x67, 0xae, 0x38, 0x35, 0xd4, 0x08, 0x6c, 0x34, 0xfe, 0x5b, 0x01,
+	0x76, 0xa7, 0xeb, 0x7d, 0x23, 0x99, 0x5f, 0x31, 0xd9, 0x86, 0x33, 0x64, 0x63, 0x68, 0x70, 0x21,
+	0x08, 0x60, 0x7d, 0xdb, 0x59, 0xc1, 0xd1, 0x5e, 0xa6, 0x67, 0xcd, 0x99, 0xa3, 0xca, 0x72, 0x0a,
+	0x26, 0xcc, 0x71, 0x6e, 0xa1, 0xa9, 0xa7, 0x69, 0x48, 0xcf, 0x2c, 0x54, 0x74, 0x54, 0x96, 0x75,
+	0xe3, 0xb0, 0xb7, 0xd0, 0x32, 0xbe, 0x31, 0xcc, 0x4b, 0x0b, 0x97, 0x79, 0xc9, 0x6b, 0x5a, 0x50,
+	0x2e, 0x34, 0xcd, 0xd8, 0x28, 0x4b, 0x2b, 0xb3, 0x56, 0x9a, 0x76, 0x0b, 0x6d, 0xb3, 0xc5, 0x3b,
+	0x69, 0x88, 0xde, 0x9e, 0x58, 0xd8, 0x6d, 0x96, 0xd7, 0xd1, 0x6b, 0x4d, 0x33, 0x1f, 0x06, 0x53,
+	0x58, 0x77, 0x9a, 0xf7, 0x05, 0x3a, 0xb4, 0x69, 0xa2, 0xd0, 0x1f, 0x7a, 0x7f, 0x63, 0x89, 0x03,
+	0xbc, 0x73, 0x8b, 0xe5, 0xde, 0x8c, 0x1b, 0x67, 0xd2, 0xfc, 0x59, 0x1f, 0xbd, 0x23, 0xf0, 0xbe,
+	0x46, 0x2f, 0xd3, 0x9b, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0xe1, 0xfc, 0xdc, 0xc0, 0xc8, 0x04,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -556,6 +674,7 @@ type TokenUpvoteServiceClient interface {
 	GetToken(ctx context.Context, in *GetTokenRequest, opts ...grpc.CallOption) (*Token, error)
 	ListToken(ctx context.Context, in *ListTokenRequest, opts ...grpc.CallOption) (TokenUpvoteService_ListTokenClient, error)
 	DeleteToken(ctx context.Context, in *DeleteTokenRequest, opts ...grpc.CallOption) (*Ok, error)
+	UpdateToken(ctx context.Context, in *UpdateTokenRequest, opts ...grpc.CallOption) (*Ok, error)
 	UpvoteToToken(ctx context.Context, in *UpvoteVoteRequest, opts ...grpc.CallOption) (*Ok, error)
 	DownvoteToToken(ctx context.Context, in *DownVoteRequest, opts ...grpc.CallOption) (*Ok, error)
 	WatchTokenVotes(ctx context.Context, in *WatchTokenRequest, opts ...grpc.CallOption) (TokenUpvoteService_WatchTokenVotesClient, error)
@@ -628,6 +747,15 @@ func (c *tokenUpvoteServiceClient) DeleteToken(ctx context.Context, in *DeleteTo
 	return out, nil
 }
 
+func (c *tokenUpvoteServiceClient) UpdateToken(ctx context.Context, in *UpdateTokenRequest, opts ...grpc.CallOption) (*Ok, error) {
+	out := new(Ok)
+	err := c.cc.Invoke(ctx, "/token.TokenUpvoteService/updateToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *tokenUpvoteServiceClient) UpvoteToToken(ctx context.Context, in *UpvoteVoteRequest, opts ...grpc.CallOption) (*Ok, error) {
 	out := new(Ok)
 	err := c.cc.Invoke(ctx, "/token.TokenUpvoteService/upvoteToToken", in, out, opts...)
@@ -662,7 +790,7 @@ func (c *tokenUpvoteServiceClient) WatchTokenVotes(ctx context.Context, in *Watc
 }
 
 type TokenUpvoteService_WatchTokenVotesClient interface {
-	Recv() (*Votes, error)
+	Recv() (*NumberOfVotes, error)
 	grpc.ClientStream
 }
 
@@ -670,8 +798,8 @@ type tokenUpvoteServiceWatchTokenVotesClient struct {
 	grpc.ClientStream
 }
 
-func (x *tokenUpvoteServiceWatchTokenVotesClient) Recv() (*Votes, error) {
-	m := new(Votes)
+func (x *tokenUpvoteServiceWatchTokenVotesClient) Recv() (*NumberOfVotes, error) {
+	m := new(NumberOfVotes)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -684,6 +812,7 @@ type TokenUpvoteServiceServer interface {
 	GetToken(context.Context, *GetTokenRequest) (*Token, error)
 	ListToken(*ListTokenRequest, TokenUpvoteService_ListTokenServer) error
 	DeleteToken(context.Context, *DeleteTokenRequest) (*Ok, error)
+	UpdateToken(context.Context, *UpdateTokenRequest) (*Ok, error)
 	UpvoteToToken(context.Context, *UpvoteVoteRequest) (*Ok, error)
 	DownvoteToToken(context.Context, *DownVoteRequest) (*Ok, error)
 	WatchTokenVotes(*WatchTokenRequest, TokenUpvoteService_WatchTokenVotesServer) error
@@ -704,6 +833,9 @@ func (*UnimplementedTokenUpvoteServiceServer) ListToken(req *ListTokenRequest, s
 }
 func (*UnimplementedTokenUpvoteServiceServer) DeleteToken(ctx context.Context, req *DeleteTokenRequest) (*Ok, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteToken not implemented")
+}
+func (*UnimplementedTokenUpvoteServiceServer) UpdateToken(ctx context.Context, req *UpdateTokenRequest) (*Ok, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateToken not implemented")
 }
 func (*UnimplementedTokenUpvoteServiceServer) UpvoteToToken(ctx context.Context, req *UpvoteVoteRequest) (*Ok, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpvoteToToken not implemented")
@@ -794,6 +926,24 @@ func _TokenUpvoteService_DeleteToken_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TokenUpvoteService_UpdateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenUpvoteServiceServer).UpdateToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/token.TokenUpvoteService/UpdateToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenUpvoteServiceServer).UpdateToken(ctx, req.(*UpdateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TokenUpvoteService_UpvoteToToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpvoteVoteRequest)
 	if err := dec(in); err != nil {
@@ -839,7 +989,7 @@ func _TokenUpvoteService_WatchTokenVotes_Handler(srv interface{}, stream grpc.Se
 }
 
 type TokenUpvoteService_WatchTokenVotesServer interface {
-	Send(*Votes) error
+	Send(*NumberOfVotes) error
 	grpc.ServerStream
 }
 
@@ -847,7 +997,7 @@ type tokenUpvoteServiceWatchTokenVotesServer struct {
 	grpc.ServerStream
 }
 
-func (x *tokenUpvoteServiceWatchTokenVotesServer) Send(m *Votes) error {
+func (x *tokenUpvoteServiceWatchTokenVotesServer) Send(m *NumberOfVotes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -866,6 +1016,10 @@ var _TokenUpvoteService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "deleteToken",
 			Handler:    _TokenUpvoteService_DeleteToken_Handler,
+		},
+		{
+			MethodName: "updateToken",
+			Handler:    _TokenUpvoteService_UpdateToken_Handler,
 		},
 		{
 			MethodName: "upvoteToToken",
