@@ -1,0 +1,68 @@
+syntax = "proto3";
+ 
+package account;
+ 
+option go_package = ".;account";
+
+service TokenUpvoteService {
+    
+    rpc addToken(add_token_request) returns (token);
+    rpc getToken(get_token_request) returns (token);
+    rpc listToken(list_token_request) returns (token_list);
+    rpc deleteToken(delete_token_request) returns (ok);
+    
+    rpc upvoteToToken(upvote_vote_request) returns (ok);
+    rpc downvoteToToken(down_vote_request) returns (ok);
+    rpc watchTokenVotes(watch_token_request) returns (stream votes);
+}
+
+message add_token_request {
+    string name = 1;
+    uint32 price = 2;
+}
+
+message get_token_request {
+    string id = 1;
+}
+
+message token {
+    string id = 1;
+    string name = 2;
+    uint32 price = 3;
+}
+
+message list_token_request {
+    uint32 limit = 1;
+    uint32 page = 2;
+}
+
+message delete_token_request {
+     string id = 1;
+}
+
+
+message votes {
+    string id = 1;
+    string to = 2;
+}
+
+
+message token_list {
+    repeated token tokens = 1;
+}
+
+message upvote_vote_request {
+    string id = 1;
+}
+
+message down_vote_request {
+    string id = 1;
+}
+
+message watch_token_request {
+    string id = 1;
+}
+
+message ok {
+    bool ok = 1;
+}
