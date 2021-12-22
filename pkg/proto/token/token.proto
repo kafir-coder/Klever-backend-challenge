@@ -1,26 +1,32 @@
 syntax = "proto3";
  
-package account;
+package token;
  
-option go_package = ".;account";
+option go_package = ".;token";
+import "validate/validate.proto";
 
 service TokenUpvoteService {
     
     rpc addToken(add_token_request) returns (token);
     rpc getToken(get_token_request) returns (token);
-    rpc listToken(list_token_request) returns (token_list);
+    rpc listToken(list_token_request) returns (stream token);
     rpc deleteToken(delete_token_request) returns (ok);
-    
+    rpc updateToken(update_token_request) returns (ok);
+
     rpc upvoteToToken(upvote_vote_request) returns (ok);
     rpc downvoteToToken(down_vote_request) returns (ok);
-    rpc watchTokenVotes(watch_token_request) returns (stream votes);
+    rpc watchTokenVotes(watch_token_request) returns (stream number_of_votes);
 }
 
 message add_token_request {
     string name = 1;
-    uint32 price = 2;
+    double price = 2;
 }
 
+message number_of_votes {
+    string owner = 1;
+    uint32 n_votes = 2;
+}
 message get_token_request {
     string id = 1;
 }
@@ -28,7 +34,7 @@ message get_token_request {
 message token {
     string id = 1;
     string name = 2;
-    uint32 price = 3;
+    double price = 3;
 }
 
 message list_token_request {
@@ -40,6 +46,11 @@ message delete_token_request {
      string id = 1;
 }
 
+message update_token_request {
+    string id = 1;
+    string name = 2 [(validate.rules).string = {min_len: 3}];
+    double price = 3;
+}
 
 message votes {
     string id = 1;
@@ -65,4 +76,5 @@ message watch_token_request {
 
 message ok {
     bool ok = 1;
+    bool noData = 2; // flag that informs the absence of documents in a collection
 }
